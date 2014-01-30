@@ -97,7 +97,7 @@ class BackboneAPIView(View):
         if self.add_form_class == None:
             return HttpResponse('POST not supported', status=405)
         try:
-            request_dict = self.json_decoder.decode(request.raw_post_data)
+            request_dict = self.json_decoder.decode(request.body)
         except ValueError:
             return HttpResponse('Invalid POST JSON', status=400)
         form = self.add_form_class(request_dict)
@@ -121,7 +121,7 @@ class BackboneAPIView(View):
             return HttpResponse('PUT not supported', status=405)
         try:
             # Just like with POST requests, Backbone will send the object's data as json:
-            request_dict = self.json_decoder.decode(request.raw_post_data)
+            request_dict = self.json_decoder.decode(request.body)
             instance = self.base_queryset.get(pk=kwargs[self.pk])
         except ValueError:
             return HttpResponse('Invalid PUT JSON', status=400)
