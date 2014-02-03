@@ -72,7 +72,7 @@ class BackboneAPIView(View):
             assert len(qs) == 1
         except AssertionError:
             raise Http404
-        output = self.serialize_qs(qs)
+        output = self.serialize_qs(qs, single_object=True)
         return self.success_response(output)
 
     def get_collection(self, request, *args, **kwargs):
@@ -144,7 +144,7 @@ class BackboneAPIView(View):
             return HttpResponse('DELETE is not supported for collections', status=405)
         qs = self.base_queryset.filter(pk=kwargs[self.pk])
         if qs:
-            output = self.serialize_qs(qs)
+            output = self.serialize_qs(qs, single_object=True)
             qs.delete()
             return self.success_response(output)
         else:
